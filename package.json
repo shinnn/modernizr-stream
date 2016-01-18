@@ -1,0 +1,41 @@
+{
+  "name": "modernizr-stream",
+  "version": "0.1.0",
+  "description": "Create a readable stream that emits Modernizr code",
+  "repository": "shinnn/modernizr-stream",
+  "author": "Shinnosuke Watanabe (https://github.com/shinnn)",
+  "scripts": {
+    "pretest": "eslint --fix --config @shinnn/node-legacy index.js test.js",
+    "test": "node --strong_mode --throw-deprecation --track-heap-objects test.js | tap-spec",
+    "coverage": "node --strong_mode node_modules/.bin/istanbul cover test.js"
+  },
+  "license": "MIT",
+  "files": [
+    "index.js"
+  ],
+  "keywords": [
+    "modernizr",
+    "build",
+    "generate",
+    "code",
+    "script",
+    "source",
+    "stream",
+    "readable",
+    "emit",
+    "emitter"
+  ],
+  "dependencies": {
+    "from2": "^2.1.1",
+    "modernizr": "^3.3.1",
+    "object-assign": "^4.0.1"
+  },
+  "devDependencies": {
+    "@shinnn/eslint-config-node-legacy": "^1.0.1",
+    "acorn": "^2.7.0",
+    "eslint": "^1.10.3",
+    "istanbul": "^0.4.2",
+    "tap-spec": "^4.1.1",
+    "tape": "^4.4.0"
+  }
+}
