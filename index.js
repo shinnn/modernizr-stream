@@ -4,23 +4,19 @@
 */
 'use strict';
 
-var from2 = require('from2');
-var modernizr = require('modernizr');
-var objectAssign = require('object-assign');
+const from2 = require('from2');
+const modernizr = require('modernizr');
 
-var zeroLengthBuffer = new Buffer(0);
+const zeroLengthBuffer = new Buffer(0);
 
 module.exports = function modernizrStream(options) {
   return new (module.exports.ctor(options))();
 };
 
 module.exports.ctor = function modernizrStreamCtor(options) {
-  var ctor = from2.ctor(objectAssign({encoding: 'utf8'}, options), function readModernizrCode(size, next) {
+  const ctor = from2.ctor(Object.assign({encoding: 'utf8'}, options), function readModernizrCode(size, next) {
     if (ctor.modernizrCode === null) {
-      setImmediate(function() {
-        next(null, zeroLengthBuffer);
-      });
-
+      setImmediate(() => next(null, zeroLengthBuffer));
       return;
     }
 
@@ -34,7 +30,7 @@ module.exports.ctor = function modernizrStreamCtor(options) {
       return;
     }
 
-    var chunk = this.unreadModernizrCode.slice(0, size);
+    const chunk = this.unreadModernizrCode.slice(0, size);
     this.unreadModernizrCode = this.unreadModernizrCode.slice(size);
 
     next(null, chunk);
@@ -45,9 +41,7 @@ module.exports.ctor = function modernizrStreamCtor(options) {
   ctor.prototype.unreadModernizrCode = null;
   ctor.prototype.firstModernizrChunkEmitted = false;
 
-  modernizr.build(options, function(result) {
-    ctor.modernizrCode = result;
-  });
+  modernizr.build(options, result => ctor.modernizrCode = result);
 
   return ctor;
 };
