@@ -41,7 +41,9 @@ module.exports.ctor = function modernizrStreamCtor(options) {
   ctor.prototype.unreadModernizrCode = null;
   ctor.prototype.firstModernizrChunkEmitted = false;
 
-  modernizr.build(options, result => ctor.modernizrCode = result);
+  modernizr.build(options, result => {
+    ctor.modernizrCode = result;
+  });
 
   return ctor;
 };
