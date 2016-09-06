@@ -1,4 +1,4 @@
-'use strong';
+'use strict';
 
 const acorn = require('acorn');
 const modernizrStream = require('.');
