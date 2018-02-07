@@ -73,6 +73,4 @@ const stream2 = createModernizrStream();
 
 ## License
 
-Copyright (c) 2016 - 2018 [Shinnosuke Watanabe](https://github.com/shinnn)
-
-Licensed under [the MIT License](./LICENSE).
+[ISC License](./LICENSE) © 2018 Shinnosuke Watanabe
