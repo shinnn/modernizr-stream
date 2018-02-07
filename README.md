@@ -1,10 +1,8 @@
 # modernizr-stream
 
-[![NPM version](https://img.shields.io/npm/v/modernizr-stream.svg)](https://www.npmjs.com/package/modernizr-stream)
+[![npm version](https://img.shields.io/npm/v/modernizr-stream.svg)](https://www.npmjs.com/package/modernizr-stream)
 [![Build Status](https://travis-ci.org/shinnn/modernizr-stream.svg?branch=master)](https://travis-ci.org/shinnn/modernizr-stream)
 [![Coverage Status](https://img.shields.io/coveralls/shinnn/modernizr-stream.svg)](https://coveralls.io/github/shinnn/modernizr-stream?branch=master)
-[![Dependency Status](https://david-dm.org/shinnn/modernizr-stream.svg)](https://david-dm.org/shinnn/modernizr-stream)
-[![devDependency Status](https://david-dm.org/shinnn/modernizr-stream/dev-status.svg)](https://david-dm.org/shinnn/modernizr-stream#info=devDependencies)
 
 Create a [readable stream](https://nodejs.org/api/stream.html#stream_class_stream_readable) that emits [Modernizr](https://modernizr.com/) code
 
@@ -13,15 +11,15 @@ const modernizrStream = require('modernizr-stream');
 
 modernizrStream().pipe(process.stdout);
 /*!
- * modernizr v3.3.1
- * Build http://modernizr.com/download?--dontmin
+ * modernizr v3.5.0
+ * Build https://modernizr.com/download?--dontmin
  ...
 */
 ```
 
 ## Installation
 
-[Use npm.](https://docs.npmjs.com/cli/install)
+[Use](https://docs.npmjs.com/cli/install) [npm](https://docs.npmjs.com/getting-started/what-is-npm).
 
 ```
 npm install modernizr-stream
@@ -36,9 +34,9 @@ const modernizrStream = require('modernizr-stream');
 ### modernizrStream([*options*])
 
 *options*: `Object`  
-Return: `Object` ([`stream.Readable`](https://nodejs.org/api/stream.html#stream_class_stream_readable_1) instance)
+Return: [`stream.Readable`](https://nodejs.org/api/stream.html#stream_class_stream_readable_1)
 
-It returns a readable stream that emits JavaScript code built with the  [Modernizr code generator](https://www.npmjs.com/package/modernizr#building).
+It returns a readable stream that emits JavaScript code built with the [Modernizr code generator](https://www.npmjs.com/package/modernizr#building).
 
 #### Options
 
@@ -46,11 +44,11 @@ All options of [`modernizr.build`](https://github.com/Modernizr/Modernizr#buildi
 
 ```javascript
 modernizrStream().on('data', data => {
-  data.length; //=> 5527
+  data.length; //=> 5497
 });
 
 modernizrStream({minify: true}).on('data', data => {
-  data.length; //=> 1164
+  data.length; //=> 1165
 });
 ```
 
@@ -59,7 +57,7 @@ modernizrStream({minify: true}).on('data', data => {
 *options*: `Object`  
 Return: `Function` ([`stream.Readable`](https://nodejs.org/api/stream.html#stream_class_stream_readable) constructor)
 
-Instead of creating a stream, it generates a reusable stream constructor that helps performance improvement when you create multiple streams with the same option. 
+Instead of creating a stream, it generates a reusable stream constructor that helps performance improvement when you create multiple streams with the same option.
 
 ```javascript
 const createModernizrStream = modernizrStream.ctor({
@@ -70,11 +68,11 @@ const createModernizrStream = modernizrStream.ctor({
 });
 
 const stream = createModernizrStream();
-const stream2 = createModernizrStream(); 
+const stream2 = createModernizrStream();
 ```
 
 ## License
 
-Copyright (c) 2016 [Shinnosuke Watanabe](https://github.com/shinnn)
+Copyright (c) 2016 - 2018 [Shinnosuke Watanabe](https://github.com/shinnn)
 
 Licensed under [the MIT License](./LICENSE).
