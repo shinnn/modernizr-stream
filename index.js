@@ -1,10 +1,10 @@
-/* eslint-disable no-buffer-constructor, node/no-deprecated-api */
 'use strict';
 
 const from2 = require('from2');
 const modernizr = require('modernizr');
+const SafeBuffer = require('safe-buffer').Buffer;
 
-const zeroLengthBuffer = new Buffer(0);
+const zeroLengthBuffer = SafeBuffer.alloc(0);
 
 module.exports = function modernizrStream(options) {
 	return new (module.exports.ctor(options))();
