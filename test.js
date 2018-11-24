@@ -18,6 +18,7 @@ test('modernizrStream()', t => {
 		highWaterMark: 4000,
 		'feature-detects': ['test/canvas']
 	})
+	.on('error', t.fail)
 	.on('data', data => {
 		chunks.push(data);
 
@@ -50,7 +51,7 @@ test('modernizrStream()', t => {
 
 	t.throws(
 		() => modernizrStream({options: [1]}),
-		/TypeError/,
+		/TypeError/u,
 		'should throw a type error when it takes invalid modernizr build options.'
 	);
 });

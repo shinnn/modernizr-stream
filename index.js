@@ -11,7 +11,7 @@ module.exports = function modernizrStream(options) {
 };
 
 module.exports.ctor = function modernizrStreamCtor(options) {
-	const ctor = from2.ctor(Object.assign({encoding: 'utf8'}, options), function readModernizrCode(size, next) {
+	const ctor = from2.ctor({encoding: 'utf8', ...options}, function readModernizrCode(size, next) {
 		if (ctor.modernizrCode === null) {
 			setImmediate(() => next(null, zeroLengthBuffer));
 			return;
