@@ -26,6 +26,9 @@
 	],
 	"dependencies": {
 		"from2": "^2.3.0",
+		"inspect-with-kind": "^1.0.5",
+		"json-stable-stringify-without-jsonify": "^1.0.1",
+		"lodash": "^4.17.4",
 		"modernizr": "^3.6.0",
 		"safe-buffer": "^5.1.2"
 	},
