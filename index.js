@@ -1,7 +1,6 @@
 'use strict';
 
 const {Readable} = require('stream');
-const {TextEncoder} = require('util'); // eslint-disable-line node/prefer-global/text-encoder
 
 const {build} = require('modernizr');
 const inspectWithKind = require('inspect-with-kind');
