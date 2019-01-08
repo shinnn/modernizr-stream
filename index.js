@@ -1,67 +1,93 @@
 'use strict';
 
-const from2 = require('from2');
-const modernizr = require('modernizr');
-const SafeBuffer = require('safe-buffer').Buffer;
+const {Readable} = require('stream');
+const {TextEncoder} = require('util'); // eslint-disable-line node/prefer-global/text-encoder
 
+const {build} = require('modernizr');
 const inspectWithKind = require('inspect-with-kind');
 const isPlainObject = require('lodash/isPlainObject');
 const jsonStableStringifyWithoutJsonify = require('json-stable-stringify-without-jsonify');
-const zeroLengthBuffer = SafeBuffer.alloc(0);
+
+const built = Symbol('built');
+const emittedLength = Symbol('emittedLength');
+const fullModernizrCode = Symbol('fullModernizrCode');
+const read = Symbol('read');
 const caches = new Map();
 
-const ctor = function modernizrStreamCtor(options = {}) {
-	const ctor = from2.ctor({encoding: 'utf8', ...options}, function readModernizrCode(size, next) {
-		if (ctor.modernizrCode === null) {
-			setImmediate(() => next(null, zeroLengthBuffer));
-			return;
-		}
+class ModernizrStream extends Readable {
+	constructor(...args) {
+		const argLen = args.length;
+		const [options = {}] = args;
 
-		if (!isPlainObject(options)) {
-			const error = new TypeError(`Expected an <Object> to set modernizr-stream options, but got ${
-				inspectWithKind(options)
-			}.`);
+		if (argLen === 1) {
+			if (!isPlainObject(options)) {
+				const error = new TypeError(`Expected an <Object> to set modernizr-stream options, but got ${
+					inspectWithKind(options)
+				}.`);
 
-			error.code = 'ERR_INVALID_ARG_TYPE';
+				error.code = 'ERR_INVALID_ARG_TYPE';
+				throw error;
+			}
+		} else if (argLen !== 0) {
+			const error = new RangeError(`Expected 0 or 1 argument (<Object>), but got ${argLen} arguments.`);
+
+			error.code = 'ERR_TOO_MANY_ARGS';
 			throw error;
 		}
 
-		if (!this.firstModernizrChunkEmitted) {
-			this.unreadModernizrCode = ctor.modernizrCode;
-			this.firstModernizrChunkEmitted = true;
-		}
+		super(options);
 
-		if (this.unreadModernizrCode.length === 0) {
-			next(null, null);
+		Object.defineProperties(this, {
+			[fullModernizrCode]: {
+				writable: true,
+				value: null
+			},
+			[emittedLength]: {
+				writable: true,
+				value: 0
+			}
+		});
+
+		const cacheKey = jsonStableStringifyWithoutJsonify(options);
+		const cache = caches.get(cacheKey);
+
+		if (cache !== undefined) {
+			this[fullModernizrCode] = cache;
+			this.emit(built);
+
 			return;
 		}
 
-		const chunk = this.unreadModernizrCode.slice(0, size);
-		this.unreadModernizrCode = this.unreadModernizrCode.slice(size);
+		build(options, code => {
+			const codeUint8Array = new TextEncoder().encode(code);
 
-		next(null, chunk);
-	});
-
-	ctor.modernizrCode = null;
-
-	ctor.prototype.unreadModernizrCode = null;
-	ctor.prototype.firstModernizrChunkEmitted = false;
-
-	const cacheKey = jsonStableStringifyWithoutJsonify(options);
-	const cache = caches.get(cacheKey);
-
-	if (cache !== undefined) {
-		ctor.modernizrCode = cache;
-	} else {
-		modernizr.build(options, result => {
-			ctor.modernizrCode = result;
-			caches.set(cacheKey, result);
+			caches.set(cacheKey, codeUint8Array);
+			this[fullModernizrCode] = codeUint8Array;
+			this.emit(built);
 		});
 	}
 
-	return ctor;
-};
+	[read](size) {
+		const sliced = this[fullModernizrCode].slice(this[emittedLength], this[emittedLength] + size);
 
-module.exports = function modernizrStream(options) {
-	return new (ctor(options))();
+		this[emittedLength] += sliced.length;
+		this.push(sliced);
+
+		if (this[fullModernizrCode].length === this[emittedLength]) {
+			this.push(null);
+		}
+	}
+
+	_read(size) {
+		if (this[fullModernizrCode] === null) {
+			this.once(built, () => this[read](size));
+			return;
+		}
+
+		this[read](size);
+	}
+}
+
+module.exports = function modernizrStream(...args) {
+	return new ModernizrStream(...args);
 };

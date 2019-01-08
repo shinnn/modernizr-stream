@@ -25,20 +25,18 @@
 		"emitter"
 	],
 	"dependencies": {
-		"from2": "^2.3.0",
 		"inspect-with-kind": "^1.0.5",
 		"json-stable-stringify-without-jsonify": "^1.0.1",
 		"lodash": "^4.17.4",
-		"modernizr": "^3.6.0",
-		"safe-buffer": "^5.1.2"
+		"modernizr": "^3.6.0"
 	},
 	"devDependencies": {
-		"@shinnn/eslint-config": "^6.8.1",
-		"acorn": "^6.0.4",
-		"eslint": "^5.9.0",
+		"@shinnn/eslint-config": "^6.8.9",
+		"acorn": "^6.0.5",
+		"eslint": "^5.12.0",
 		"nyc": "^13.1.0",
 		"nyc-config-common": "^1.0.1",
-		"tape": "^4.9.1"
+		"tape": "^4.9.2"
 	},
 	"eslintConfig": {
 		"extends": "@shinnn"

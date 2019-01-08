@@ -5,11 +5,14 @@ const modernizrStream = require('.');
 const test = require('tape');
 
 test('modernizrStream()', t => {
-	t.plan(7);
+	t.plan(6);
 
 	modernizrStream().on('data', data => {
 		t.doesNotThrow(() => parseJs(data), 'should emit valid JS code.');
-		t.ok(data.includes('Modernizr'), 'should emit Modernizr code.');
+
+		modernizrStream().on('data', anotherData => {
+			t.ok(anotherData.includes('Modernizr'), 'should emit Modernizr code.');
+		});
 	});
 
 	const chunks = [];
@@ -48,21 +51,31 @@ test('modernizrStream()', t => {
 			'should emit chunks of Modernizr code continuously.'
 		);
 	});
+});
+
+test('Argument validation', t => {
+	t.throws(
+		() => modernizrStream(new Int32Array()),
+		/^TypeError: Expected an <Object> to set modernizr-stream options, but got Int32Array \[\]/u,
+		'should fail when it takes a non-plain object argument.'
+	);
+
+	t.throws(
+		() => modernizrStream({encoding: 'μtf8'}),
+		/ERR_UNKNOWN_ENCODING/u,
+		'should fail when it takes invalid ReadableStream constructor options.'
+	);
 
 	t.throws(
 		() => modernizrStream({options: [1]}),
-		/TypeError/u,
-		'should throw a type error when it takes invalid modernizr build options.'
+		/^TypeError/u,
+		'should fail when it takes invalid Modernizr build options.'
 	);
-});
 
-test('modernizrStream.ctor()', t => {
-	t.equal(modernizrStream.ctor.name, 'modernizrStreamCtor', 'should have a function name.');
-
-	t.equal(
-    typeof modernizrStream.ctor().prototype._read, // eslint-disable-line
-		'function',
-		'should create a ReadableStream constructor.'
+	t.throws(
+		() => modernizrStream({}, {}),
+		/^RangeError: Expected 0 or 1 argument \(<Object>\), but got 2 arguments\./u,
+		'should fail when it takes too many arguments.'
 	);
 
 	t.end();

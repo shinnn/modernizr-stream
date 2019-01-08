@@ -1,7 +1,7 @@
 # modernizr-stream
 
 [![npm version](https://img.shields.io/npm/v/modernizr-stream.svg)](https://www.npmjs.com/package/modernizr-stream)
-[![Build Status](https://travis-ci.org/shinnn/modernizr-stream.svg?branch=master)](https://travis-ci.org/shinnn/modernizr-stream)
+[![Build Status](https://travis-ci.com/shinnn/modernizr-stream.svg?branch=master)](https://travis-ci.com/shinnn/modernizr-stream)
 [![Coverage Status](https://img.shields.io/coveralls/shinnn/modernizr-stream.svg)](https://coveralls.io/github/shinnn/modernizr-stream?branch=master)
 
 Create a [readable stream](https://nodejs.org/api/stream.html#stream_class_stream_readable) that emits [Modernizr](https://modernizr.com/) code
@@ -11,7 +11,7 @@ const modernizrStream = require('modernizr-stream');
 
 modernizrStream().pipe(process.stdout);
 /*!
- * modernizr v3.5.0
+ * modernizr v3.6.0
  * Build https://modernizr.com/download?--dontmin
  ...
 */
@@ -19,7 +19,7 @@ modernizrStream().pipe(process.stdout);
 
 ## Installation
 
-[Use](https://docs.npmjs.com/cli/install) [npm](https://docs.npmjs.com/getting-started/what-is-npm).
+[Use](https://docs.npmjs.com/cli/install) [npm](https://docs.npmjs.com/about-npm/).
 
 ```
 npm install modernizr-stream
@@ -40,7 +40,7 @@ It returns a readable stream that emits JavaScript code built with the [Moderniz
 
 #### Options
 
-All options of [`modernizr.build`](https://github.com/Modernizr/Modernizr#building) and [`stream.Readable`](https://nodejs.org/api/stream.html#stream_new_stream_readable_options) are avilable. Note that `encoding` option defaults to `utf8`, that means the stream emits strings instead of [buffers](https://nodejs.org/api/buffer.html) by default.
+All options of [`modernizr.build`](https://github.com/Modernizr/Modernizr#building) and [`stream.Readable`](https://nodejs.org/api/stream.html#stream_new_stream_readable_options) are available.
 
 ```javascript
 modernizrStream().on('data', data => {
@@ -54,4 +54,4 @@ modernizrStream({minify: true}).on('data', data => {
 
 ## License
 
-[ISC License](./LICENSE) © 2018 Shinnosuke Watanabe
+[ISC License](./LICENSE) © 2018 - 2019 Shinnosuke Watanabe
