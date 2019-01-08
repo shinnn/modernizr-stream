@@ -52,25 +52,6 @@ modernizrStream({minify: true}).on('data', data => {
 });
 ```
 
-### modernizrStream.ctor([*options*])
-
-*options*: `Object`  
-Return: `Function` ([`stream.Readable`](https://nodejs.org/api/stream.html#stream_class_stream_readable) constructor)
-
-Instead of creating a stream, it generates a reusable stream constructor that helps performance improvement when you create multiple streams with the same option.
-
-```javascript
-const createModernizrStream = modernizrStream.ctor({
-  options: [
-    'addTest',
-    'mq'
-  ]
-});
-
-const stream = createModernizrStream();
-const stream2 = createModernizrStream();
-```
-
 ## License
 
 [ISC License](./LICENSE) © 2018 Shinnosuke Watanabe

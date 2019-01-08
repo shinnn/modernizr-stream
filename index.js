@@ -6,11 +6,7 @@ const SafeBuffer = require('safe-buffer').Buffer;
 
 const zeroLengthBuffer = SafeBuffer.alloc(0);
 
-module.exports = function modernizrStream(options) {
-	return new (module.exports.ctor(options))();
-};
-
-module.exports.ctor = function modernizrStreamCtor(options) {
+const ctor = function modernizrStreamCtor(options) {
 	const ctor = from2.ctor({encoding: 'utf8', ...options}, function readModernizrCode(size, next) {
 		if (ctor.modernizrCode === null) {
 			setImmediate(() => next(null, zeroLengthBuffer));
@@ -43,4 +39,8 @@ module.exports.ctor = function modernizrStreamCtor(options) {
 	});
 
 	return ctor;
+};
+
+module.exports = function modernizrStream(options) {
+	return new (ctor(options))();
 };
