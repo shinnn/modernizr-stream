@@ -8,12 +8,13 @@ const isPlainObject = require('lodash/isPlainObject');
 const jsonStableStringifyWithoutJsonify = require('json-stable-stringify-without-jsonify');
 
 const built = Symbol('built');
-const emittedLength = Symbol('emittedLength');
-const fullModernizrCode = Symbol('fullModernizrCode');
 const read = Symbol('read');
 const caches = new Map();
 
 class ModernizrStream extends Readable {
+	#fullModernizrCode = null;
+	#emittedLength = 0;
+
 	constructor(...args) {
 		const argLen = args.length;
 		const [options = {}] = args;
@@ -36,22 +37,11 @@ class ModernizrStream extends Readable {
 
 		super(options);
 
-		Object.defineProperties(this, {
-			[fullModernizrCode]: {
-				writable: true,
-				value: null
-			},
-			[emittedLength]: {
-				writable: true,
-				value: 0
-			}
-		});
-
 		const cacheKey = jsonStableStringifyWithoutJsonify(options);
 		const cache = caches.get(cacheKey);
 
 		if (cache !== undefined) {
-			this[fullModernizrCode] = cache;
+			this.#fullModernizrCode = cache;
 			this.emit(built);
 
 			return;
@@ -61,24 +51,26 @@ class ModernizrStream extends Readable {
 			const codeUint8Array = new TextEncoder().encode(code);
 
 			caches.set(cacheKey, codeUint8Array);
-			this[fullModernizrCode] = codeUint8Array;
+			this.#fullModernizrCode = codeUint8Array;
 			this.emit(built);
 		});
 	}
 
+	// Replaceable with a private method `#read()` in the future
+	// https://github.com/tc39/proposal-private-methods
 	[read](size) {
-		const sliced = this[fullModernizrCode].slice(this[emittedLength], this[emittedLength] + size);
+		const sliced = this.#fullModernizrCode.slice(this.#emittedLength, this.#emittedLength + size);
 
-		this[emittedLength] += sliced.length;
+		this.#emittedLength += sliced.length;
 		this.push(sliced);
 
-		if (this[fullModernizrCode].length === this[emittedLength]) {
+		if (this.#fullModernizrCode.length === this.#emittedLength) {
 			this.push(null);
 		}
 	}
 
 	_read(size) {
-		if (this[fullModernizrCode] === null) {
+		if (this.#fullModernizrCode === null) {
 			this.once(built, () => this[read](size));
 			return;
 		}
