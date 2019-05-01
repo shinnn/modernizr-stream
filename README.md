@@ -2,7 +2,7 @@
 
 [![npm version](https://img.shields.io/npm/v/modernizr-stream.svg)](https://www.npmjs.com/package/modernizr-stream)
 [![Build Status](https://travis-ci.com/shinnn/modernizr-stream.svg?branch=master)](https://travis-ci.com/shinnn/modernizr-stream)
-[![Coverage Status](https://img.shields.io/coveralls/shinnn/modernizr-stream.svg)](https://coveralls.io/github/shinnn/modernizr-stream?branch=master)
+[![codecov](https://codecov.io/gh/shinnn/modernizr-stream/branch/master/graph/badge.svg)](https://codecov.io/gh/shinnn/modernizr-stream)
 
 Create a [readable stream](https://nodejs.org/api/stream.html#stream_class_stream_readable) that emits [Modernizr](https://modernizr.com/) code
 

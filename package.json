@@ -2,12 +2,12 @@
 	"name": "modernizr-stream",
 	"version": "2.0.0",
 	"description": "Create a readable stream that emits Modernizr code",
-	"repository": "shinnn/modernizr-stream",
 	"author": "Shinnosuke Watanabe (https://github.com/shinnn)",
+	"repository": "shinnn/modernizr-stream",
 	"license": "ISC",
 	"scripts": {
 		"pretest": "eslint .",
-		"test": "nyc node test.js"
+		"test": "coverage test.js"
 	},
 	"files": [
 		"index.js"
@@ -27,21 +27,19 @@
 	"dependencies": {
 		"inspect-with-kind": "^1.0.5",
 		"json-stable-stringify-without-jsonify": "^1.0.1",
-		"lodash": "^4.17.4",
-		"modernizr": "^3.6.0"
+		"lodash": "^4.17.11",
+		"modernizr": "^3.7.1"
 	},
 	"devDependencies": {
-		"@shinnn/eslint-config": "^6.8.9",
-		"acorn": "^6.0.5",
-		"eslint": "^5.12.0",
-		"nyc": "^13.1.0",
-		"nyc-config-common": "^1.0.1",
-		"tape": "^4.9.2"
+		"@shinnn/eslint-config": "^6.10.3",
+		"acorn": "^6.1.1",
+		"babel-eslint": "^10.0.1",
+		"coverage": "^0.3.0",
+		"eslint": "^5.16.0",
+		"tape": "^4.10.1"
 	},
 	"eslintConfig": {
-		"extends": "@shinnn"
-	},
-	"nyc": {
-		"extends": "nyc-config-common"
+		"extends": "@shinnn",
+		"parser": "babel-eslint"
 	}
 }
