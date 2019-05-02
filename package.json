@@ -1,6 +1,6 @@
 {
 	"name": "modernizr-stream",
-	"version": "2.0.0",
+	"version": "3.0.0",
 	"description": "Create a readable stream that emits Modernizr code",
 	"author": "Shinnosuke Watanabe (https://github.com/shinnn)",
 	"repository": "shinnn/modernizr-stream",
